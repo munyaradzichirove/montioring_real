@@ -29,32 +29,32 @@ export const routes: RouteObject[] = [
   {
     element: <App />,
     children: [
-      {
-        path: '/',
-        element: (
-          <MainLayout>
-            <SuspenseOutlet />
-          </MainLayout>
-        ),
-        children: [
-          {
-            index: true,
-            element: <Analytics />,
-          },
-          {
-            path: paths.users,
-            element: <UserList />,
-          },
-          {
-            path: paths.account,
-            element: <Account />,
-          },
-          {
-            path: paths.starter,
-            element: <Starter />,
-          },
-        ],
-      },
+    {
+  path: '/',
+  element: (
+    <MainLayout>
+      <SuspenseOutlet />
+    </MainLayout>
+  ),
+  children: [
+    {
+      index: true,
+      element: <UserList />, // default for "/"
+    },
+    {
+      path: paths.services,
+      element: <UserList />, // "/services"
+    },
+    {
+      path: paths.account,
+      element: <Account />,  // "/account"
+    },
+    {
+      path: paths.settings,
+      element: <Starter />,  // "/settings"
+    },
+  ],
+},
       {
         path: rootPaths.authRoot,
         element: (

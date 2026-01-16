@@ -9,10 +9,10 @@ const UserList = () => {
   return (
     <Stack direction="column" height={1}>
       <PageHeader
-        title="User list"
+        title="Services List"
         breadcrumb={[
           { label: 'Home', url: paths.root },
-          { label: 'Users', active: true },
+          { label: 'Services', active: true },
         ]}
         actionComponent={
           <Stack

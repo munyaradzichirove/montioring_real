@@ -32,25 +32,10 @@ const sitemap: MenuItem[] = [
     items: [
       {
         name: 'Dashboard',
-        path: rootPaths.root,
-        pathName: 'dashboard',
+        path: paths.services, // <- new
+        pathName: 'services',
         icon: 'material-symbols:query-stats-rounded',
         active: true,
-      },
-      {
-        name: 'Users',
-        path: paths.users,
-        pathName: 'users',
-        icon: 'material-symbols:account-box-outline',
-        active: true,
-      },
-      {
-        name: 'Account',
-        key: 'account',
-        path: paths.account,
-        pathName: 'account',
-        active: true,
-        icon: 'material-symbols:admin-panel-settings-outline-rounded',
       },
       {
         name: 'Login',
@@ -68,8 +53,8 @@ const sitemap: MenuItem[] = [
       },
        {
         name: 'Settings',
-        path: paths.starter,
-        pathName: 'starter',
+        path: paths.settings,
+        pathName: 'settings',
         icon: 'material-symbols:play-circle-outline-rounded',
         active: true,
       },
