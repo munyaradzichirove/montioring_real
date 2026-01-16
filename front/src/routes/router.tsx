@@ -10,7 +10,7 @@ import paths, { rootPaths } from './paths';
 const Analytics = lazy(() => import('pages/dashboard/Analytics'));
 const UserList = lazy(() => import('pages/users/UserList'));
 const Starter = lazy(() => import('pages/others/Starter'));
-const Account = lazy(() => import('pages/others/Account'));
+const ServiceDetail = lazy(() => import('pages/others/ServiceDetail'));
 
 const Login = lazy(() => import('pages/authentication/Login'));
 const Signup = lazy(() => import('pages/authentication/Signup'));
@@ -46,8 +46,8 @@ export const routes: RouteObject[] = [
       element: <UserList />, // "/services"
     },
     {
-      path: paths.account,
-      element: <Account />,  // "/account"
+      path: '/service-detail/:servicename',
+      element: <ServiceDetail />,  // "/account"
     },
     {
       path: paths.settings,

@@ -31,7 +31,7 @@ const Names = () => {
         />
       </InfoCard>
       <AccountDialog
-        title="Name"
+        title="Names"
         subtitle="Enter your updated first and last name below. Your name will be reflected across all your account settings."
         open={open}
         handleConfirm={handleClose}

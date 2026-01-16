@@ -14,13 +14,16 @@ import { Whatsapp } from 'react-bootstrap-icons';
 
 
 
-const PersonalInfoTabPanel = () => {
+interface PersonalInfoTabPanelProps {
+  serviceName?: string;
+}
+
+const PersonalInfoTabPanel = ({ serviceName }: PersonalInfoTabPanelProps) => {
   return (
     <Stack direction="column" divider={<Divider />} spacing={5}>
       <AccountTabPanelSection
-      
-        title="Name"
-        subtitle="Edit your name here if you wish to make any changes. You can also edit your user name which will be showed publicly."
+        title={serviceName || "Service Name"} // ← dynamic now
+        subtitle="Edit your name here if you wish to make any changes."
         icon="material-symbols:badge-outline"
       >
         <Stack direction="column" spacing={1}>
@@ -31,13 +34,13 @@ const PersonalInfoTabPanel = () => {
       <AccountTabPanelSection
         title="Service Information"
         subtitle="You can edit your address and control who can see it."
-          icon="material-symbols:info-outline"
+        icon="material-symbols:info-outline"
       >
         <Address />
       </AccountTabPanelSection>
-
     </Stack>
   );
 };
+
 
 export default PersonalInfoTabPanel;

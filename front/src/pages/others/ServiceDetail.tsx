@@ -8,10 +8,13 @@ import { useBreakpoints } from 'providers/BreakpointsProvider';
 import SimpleBar from 'components/base/SimpleBar';
 import SideTabList from 'components/sections/account/SideTabList';
 import AccountTabPanel from 'components/sections/account/common/AccountTabPanel';
+import { useParams } from 'react-router-dom';
+import PersonalInfoTabPanel from 'components/sections/account/personal-info/PersonalInfoTabPanel';
+
 
 const Account = () => {
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(accountTabs[0].value);
+  // const [activeTab, setActiveTab] = useState(accountTabs[0].value);
   const { down } = useBreakpoints();
   const [showTabList, setShowTabList] = useState(true);
 
@@ -23,6 +26,58 @@ const Account = () => {
     //   setOpen(true);
     // }
   };
+
+  const { servicename } = useParams();
+  const [activeTab, setActiveTab] = useState('start');
+
+  const dynamicTabs = [
+    {
+      id: 1,
+      label: 'Start',
+      title: '',
+      value: 'start',
+      icon: 'material-symbols:play-arrow-outline',
+      panelIcon: 'material-symbols:play-arrow-outline',
+      tabPanel: <PersonalInfoTabPanel serviceName={servicename} />,
+    },
+    {
+      id: 2,
+      label: 'Stop',
+      value: 'stop',
+      icon: 'material-symbols:stop-outline',
+      tabPanel: <div>Stop service panel</div>,
+    },
+    {
+      id: 3,
+      label: 'Reload',
+      value: 'reload',
+      icon: 'material-symbols:refresh-outline',
+      tabPanel: <div>Reload service panel</div>,
+    },
+    {
+      id: 4,
+      label: 'Enable',
+      value: 'enable',
+      icon: 'material-symbols:toggle-on-outline',
+      tabPanel: <div>Enable service panel</div>,
+    },
+    {
+      id: 5,
+      label: 'Disable',
+      value: 'disable',
+      icon: 'material-symbols:toggle-off-outline',
+      tabPanel: <div>Disable service panel</div>,
+    },
+    {
+      id: 6,
+      label: 'Logs',
+      value: 'logs',
+      icon: 'material-symbols:receipt-long-outline',
+      tabPanel: <div>Logs panel</div>,
+    },
+  ];
+
+
 
 
   const handleClose = (_event: SyntheticEvent, reason?: SnackbarCloseReason) => {
@@ -90,18 +145,17 @@ const Account = () => {
                 height: downMd ? 1 : 'auto',
               }}
             >
-              {accountTabs.map((tab) => (
-                <AccountTabPanel
-                  key={tab.id}
-                  label={tab.label}
-                  value={tab.value}
-                  // title={tab.title}
-                  // panelIcon={tab.panelIcon}
-                  setShowTabList={setShowTabList}
-                >
-                  {tab.tabPanel}
-                </AccountTabPanel>
-              ))}
+             {dynamicTabs.map((tab) => (
+              <AccountTabPanel
+                key={tab.id}
+                label={tab.label}
+                value={tab.value}
+                setShowTabList={setShowTabList}
+              >
+                {tab.tabPanel}
+              </AccountTabPanel>
+            ))}
+
             </Container>
           </Paper>
           <ProSnackbar open={open} onClose={handleClose} />

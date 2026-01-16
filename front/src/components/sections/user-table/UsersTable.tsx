@@ -18,6 +18,8 @@ import { User } from 'types/users';
 import DashboardMenu from 'components/common/DashboardMenu';
 import DataGridPagination from 'components/pagination/DataGridPagination';
 import { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface UsersTableProps {
   apiRef: RefObject<GridApiCommunity | null>;
@@ -63,6 +65,7 @@ const getStatusChipColor = (value: User['status']): ChipOwnProps['color'] => {
 };
 
 const UsersTable = ({ apiRef, filterButtonEl }: UsersTableProps) => {
+  const navigate = useNavigate();
   const services = useServices();
   const serviceRows = services.map((svc, idx) => ({
   id: idx,              // DataGrid needs a unique id
@@ -132,30 +135,29 @@ const UsersTable = ({ apiRef, filterButtonEl }: UsersTableProps) => {
         sortable: false,
         filterable: false,
       },
+      {
+      field: 'action',
+      headerName: 'Action',
+      filterable: false,
+      sortable: false,
+      width: 100,
+      align: 'right',
+      headerAlign: 'right',
+      renderCell: (params) => (
+        <Button
+          sx={{ ml: 5 }} // ← adds left margin
+          size="small"
+          variant="contained"
+          onClick={() => navigate(`/service-detail/${params.row.name}`)}
+        >
+          View
+        </Button>
+      ),
+    }
+
 
     
-      {
-        field: 'action',
-        headerName: '',
-        filterable: false,
-        sortable: false,
-        width: 60,
-        align: 'right',
-        headerAlign: 'right',
-        renderCell: () => (
-          <DashboardMenu
-            menuItems={[
-              {
-                label: 'Edit',
-              },
-              {
-                label: 'Delete',
-                sx: { color: 'error.main' },
-              },
-            ]}
-          />
-        ),
-      },
+    
     ],
     [],
   );
