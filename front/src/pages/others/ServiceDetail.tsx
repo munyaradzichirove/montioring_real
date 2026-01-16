@@ -10,6 +10,8 @@ import SideTabList from 'components/sections/account/SideTabList';
 import AccountTabPanel from 'components/sections/account/common/AccountTabPanel';
 import { useParams } from 'react-router-dom';
 import PersonalInfoTabPanel from 'components/sections/account/personal-info/PersonalInfoTabPanel';
+import { Button } from '@mui/material';
+
 
 
 const Account = () => {
@@ -21,6 +23,7 @@ const Account = () => {
   const downMd = down('md');
   const handleChange = (_event: SyntheticEvent, newValue: string): void => {
     setActiveTab(newValue);
+ console.log("THe service clicked"+newValue);
 
     // if (newValue !== 'personal_information') {
     //   setOpen(true);
@@ -45,28 +48,29 @@ const Account = () => {
       label: 'Stop',
       value: 'stop',
       icon: 'material-symbols:stop-outline',
-      tabPanel: <div>Stop service panel</div>,
+     tabPanel: <PersonalInfoTabPanel serviceName={servicename} />,
     },
     {
       id: 3,
       label: 'Reload',
       value: 'reload',
       icon: 'material-symbols:refresh-outline',
-      tabPanel: <div>Reload service panel</div>,
+       tabPanel: <PersonalInfoTabPanel serviceName={servicename} />,
     },
     {
       id: 4,
       label: 'Enable',
       value: 'enable',
       icon: 'material-symbols:toggle-on-outline',
-      tabPanel: <div>Enable service panel</div>,
+       tabPanel: <PersonalInfoTabPanel serviceName={servicename} />,
+  
     },
     {
       id: 5,
       label: 'Disable',
       value: 'disable',
       icon: 'material-symbols:toggle-off-outline',
-      tabPanel: <div>Disable service panel</div>,
+       tabPanel: <PersonalInfoTabPanel serviceName={servicename} />,
     },
     {
       id: 6,
