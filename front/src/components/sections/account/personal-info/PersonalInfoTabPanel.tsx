@@ -1,28 +1,45 @@
 import { Divider, Stack } from '@mui/material';
-import AccountTabPanelSection2 from '../common/AccountTabPanelSection';
 import AccountTabPanelSection from '../common/AccountTabPanelSection';
 import Address from './Address';
-import Email from './Email';
-import Names from './Names';
-import Phone from './Phone';
 import UserName from './UserName';
-import IconifyIcon, { IconifySecond } from 'components/base/IconifyIcon';
-import { Whatsapp } from 'react-bootstrap-icons';
+import { useEffect, useState } from 'react';
 
-
-
-
-
+interface Service {
+  name: string;
+  description?: string;
+  // add more fields if needed
+}
 
 interface PersonalInfoTabPanelProps {
-  serviceName?: string;
+  serviceName: string; // pass from route
 }
 
 const PersonalInfoTabPanel = ({ serviceName }: PersonalInfoTabPanelProps) => {
+  const [service, setService] = useState<Service | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!serviceName) return;
+
+      fetch(`http://localhost:5000/api/service/${serviceName}`)
+      .then(res => res.json())
+      .then(data => {
+        setService(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("error bro"+serviceName+err);
+        setLoading(false);
+      });
+  }, [serviceName]);
+
+  if (loading) return <div>Loading service info...</div>;
+  if (!service) return <div>Service not found</div>;
+
   return (
     <Stack direction="column" divider={<Divider />} spacing={5}>
       <AccountTabPanelSection
-        title={serviceName || "Service Name"} // ← dynamic now
+        title={service.name} // ← now dynamic from backend
         subtitle="Edit your name here if you wish to make any changes."
         icon="material-symbols:badge-outline"
       >
@@ -41,6 +58,5 @@ const PersonalInfoTabPanel = ({ serviceName }: PersonalInfoTabPanelProps) => {
     </Stack>
   );
 };
-
 
 export default PersonalInfoTabPanel;
