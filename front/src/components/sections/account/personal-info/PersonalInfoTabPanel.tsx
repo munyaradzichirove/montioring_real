@@ -53,7 +53,7 @@ const PersonalInfoTabPanel = ({ serviceName }: PersonalInfoTabPanelProps) => {
         subtitle="You can edit your address and control who can see it."
         icon="material-symbols:info-outline"
       >
-        <Address />
+        <Address service={service} />
       </AccountTabPanelSection>
     </Stack>
   );

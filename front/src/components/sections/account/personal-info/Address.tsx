@@ -5,23 +5,30 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
-import { countries } from 'data/countries';
-import { useAccounts } from 'providers/AccountsProvider';
-import { useBreakpoints } from 'providers/BreakpointsProvider';
-import IconifyIcon from 'components/base/IconifyIcon';
-import CountrySelect from 'components/common/CountrySelect';
-import AccountDialog from '../common/AccountDialog';
 import InfoCard from '../common/InfoCard';
 import InfoCardAttribute from '../common/InfoCardAttribute';
 
-const Address = () => {
+interface Service {
+  name: string;
+  cpu?: string;
+  uptime?: string;
+  threads?: string;
+  sub?: string;
+  status?: string;
+  memory?: string;
+  restart_count?: string;
+  // add other fields from your API if needed
+}
+
+interface AddressProps {
+  service: Service; // we receive the service object from PersonalInfoTabPanel
+}
+
+const Address = ({ service }: AddressProps) => {
   const [open, setOpen] = useState(false);
-  const { personalInfo } = useAccounts();
-  const { up } = useBreakpoints();
-  const upSm = up('sm');
+  const upSm = true; // or use your breakpoints hook if needed
 
   const handleClose = () => setOpen(false);
 
@@ -29,11 +36,13 @@ const Address = () => {
     <>
       <InfoCard setOpen={setOpen} sx={{ mb: 3 }}>
         <Stack direction="column" spacing={{ xs: 2, sm: 1 }}>
-          <InfoCardAttribute label="Country" value={personalInfo.country} />
-          <InfoCardAttribute label="State" value={personalInfo.state} />
-          <InfoCardAttribute label="City" value={personalInfo.city} />
-          <InfoCardAttribute label="Street" value={personalInfo.street} />
-          <InfoCardAttribute label="ZIP" value={personalInfo.zip} />
+          <InfoCardAttribute label="SUB" value={(service.sub || "N/A").toUpperCase()} />
+          <InfoCardAttribute label="UPTIME" value={service.uptime || "-"} />
+          <InfoCardAttribute label="MEMORY" value={service.memory || "0"} />
+          <InfoCardAttribute label="CPU" value={service.cpu || "0"} />
+          <InfoCardAttribute label="THREADS" value={service.threads || "0"} />
+          <InfoCardAttribute label="RESTART COUNT" value={service.restart_count || "0"} />
+         
         </Stack>
       </InfoCard>
 
@@ -43,10 +52,10 @@ const Address = () => {
         </Typography>
         <RadioGroup
           row={upSm}
-          defaultValue="No,do not notify me"
+          defaultValue={service.notifyOnFail ? "yes" : "no"}
           aria-labelledby="address-visibility-radio-buttons"
         >
-          <FormControlLabel value="no" control={<Radio />} label="No, d'ont notify me." />
+          <FormControlLabel value="no" control={<Radio />} label="No, don't notify me." />
           <FormControlLabel value="yes" control={<Radio />} label="Yes, notify me." />
         </RadioGroup>
       </FormControl>
