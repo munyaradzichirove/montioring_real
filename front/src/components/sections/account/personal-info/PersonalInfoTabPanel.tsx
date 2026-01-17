@@ -50,7 +50,7 @@ const PersonalInfoTabPanel = ({ serviceName }: PersonalInfoTabPanelProps) => {
 
       <AccountTabPanelSection
         title="Service Information"
-        subtitle="You can edit your address and control who can see it."
+        subtitle="You  can edit your address and control who can see it."
         icon="material-symbols:info-outline"
       >
         <Address service={service} />
