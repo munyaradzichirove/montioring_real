@@ -10,6 +10,7 @@ import SideTabList from 'components/sections/account/SideTabList';
 import AccountTabPanel from 'components/sections/account/common/AccountTabPanel';
 import { useParams } from 'react-router-dom';
 import PersonalInfoTabPanel from 'components/sections/account/personal-info/PersonalInfoTabPanel';
+import LogsTabPanel from 'components/sections/account/personal-info/LogsTabPanel';
 import { Button } from '@mui/material';
 
 
@@ -77,7 +78,7 @@ const Account = () => {
       label: 'Logs',
       value: 'logs',
       icon: 'material-symbols:receipt-long-outline',
-      tabPanel: <div>Logs panel</div>,
+      tabPanel:<LogsTabPanel serviceName={servicename} />,
     },
   ];
 

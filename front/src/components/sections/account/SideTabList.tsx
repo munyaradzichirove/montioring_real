@@ -8,7 +8,7 @@ import StyledTextField from 'components/styled/StyledTextField';
 import AccountTab from './common/AccountTab';
 
 interface SideTabListProps extends PaperProps {
-  value: string; // 👈 ADD THIS
+  value: string; 
   setShowTabList: Dispatch<SetStateAction<boolean>>;
   handleChange: (event: SyntheticEvent, newValue: string) => void;
   sx?: SxProps;
