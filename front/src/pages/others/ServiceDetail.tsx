@@ -139,30 +139,28 @@ const Account = () => {
             </Paper>
           )}
 
-          <Paper sx={{ flex: 1, maxWidth: 1 }}>
-            <Container
-              maxWidth={false}
-              sx={{
-                px: { xs: 3, md: 5 },
-                py: 5,
-                maxWidth: { xs: 628, md: 660 },
-                overflowY: 'hidden',
-                height: downMd ? 1 : 'auto',
-              }}
-            >
-             {dynamicTabs.map((tab) => (
-              <AccountTabPanel
-                key={tab.id}
-                label={tab.label}
-                value={tab.value}
-                setShowTabList={setShowTabList}
-              >
-                {tab.tabPanel}
-              </AccountTabPanel>
-            ))}
-
-            </Container>
-          </Paper>
+        <Paper sx={{ width: '100%', flex: 1 }}>
+  <Container
+    maxWidth={false} // allow full width
+    sx={{
+      px: { xs: 2, md: 5 }, // adjust padding
+      py: 5,
+      width: '90%',        // make container full width
+      height: downMd ? '100%' : 'auto',
+    }}
+  >
+    {dynamicTabs.map((tab) => (
+      <AccountTabPanel
+        key={tab.id}
+        label={tab.label}
+        value={tab.value}
+        setShowTabList={setShowTabList}
+      >
+        {tab.tabPanel}
+      </AccountTabPanel>
+    ))}
+  </Container>
+</Paper>
           <ProSnackbar open={open} onClose={handleClose} />
         </Stack>
       </TabContext>

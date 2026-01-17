@@ -20,7 +20,7 @@ const AccountTabPanel = ({
 }: PropsWithChildren<AccountTabPanelProps>): ReactElement => {
   return (
     <TabPanel value={value} sx={{ p: 0 }}>
-      <Stack sx={{ gap: 1, alignItems: 'center', mb: 5 }}>
+      <Stack sx={{ gap: 1, alignItems: 'start', mb: 5 }}>
         <IconButton onClick={() => setShowTabList(true)} sx={{ display: { md: 'none' }, ml: -1.5 }}>
           <IconifyIcon
             flipOnRTL
