@@ -44,7 +44,7 @@ const PersonalInfoTabPanel = ({ serviceName }: PersonalInfoTabPanelProps) => {
         icon="material-symbols:badge-outline"
       >
         <Stack direction="column" spacing={1}>
-          <UserName />
+          <UserName service={service} />
         </Stack>
       </AccountTabPanelSection>
 
