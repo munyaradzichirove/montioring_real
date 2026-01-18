@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { Stack, TextField } from '@mui/material';
+import { Stack, TextField, Typography, Chip } from '@mui/material';
 import { useAccounts } from 'providers/AccountsProvider';
 import IconifyIcon from 'components/base/IconifyIcon';
 import AccountDialog from '../common/AccountDialog';
 import InfoCard from '../common/InfoCard';
-import InfoCardStatus from '../common/InfoCardAttribute';
+
 
 interface Service {
-  status?: string; // add more fields from your API if needed
+  status?: string;
 }
 
 interface UserNameProps {
-  service?: Service; // make it optional, fallback possible
+  service?: Service;
 }
 
 const UserName = ({ service }: UserNameProps) => {
@@ -20,15 +20,44 @@ const UserName = ({ service }: UserNameProps) => {
 
   const handleClose = () => setOpen(false);
 
-  // fallback status if service is not passed
-  const status = service?.status || personalInfo.status || "0";
+  const status = service?.status || "inactive"; // fallback
+
+  // map status to color
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'success'; // green
+      case 'inactive':
+        return 'error'; // red
+      case 'away':
+        return 'warning'; // yellow/orange
+      default:
+        return 'default'; // gray
+    }
+  };
 
   return (
     <>
       <InfoCard setOpen={setOpen}>
-        <Stack direction="column" spacing={{ xs: 2, sm: 1 }} justifyContent="center">
-          <InfoCardStatus label="Status" value={status} />
-        </Stack>
+    <Stack direction="row" spacing={1} alignItems="center">
+      <Typography variant="body2" fontWeight={600}>
+        Status:
+      </Typography>
+      <Chip
+        label={status}
+        color={getStatusColor(status)}
+        size="small"
+        variant="outlined"
+        sx={{
+          fontWeight: 600,
+          textTransform: 'capitalize',
+          cursor: 'default',
+          minWidth: 70,
+        }}
+      />
+    </Stack>
+
+
         <IconifyIcon
           icon="material-symbols-light:edit-outline"
           sx={{ fontSize: 20, color: 'neutral.dark', visibility: 'hidden' }}
