@@ -22,17 +22,33 @@ const Account = () => {
   const [showTabList, setShowTabList] = useState(true);
 
   const downMd = down('md');
-  const handleChange = (_event: SyntheticEvent, newValue: string): void => {
-    setActiveTab(newValue);
- console.log("THe service clicked"+newValue);
+  const { servicename } = useParams(); // <-- make sure this is at the top
+const [activeTab, setActiveTab] = useState('start');
 
-    // if (newValue !== 'personal_information') {
-    //   setOpen(true);
-    // }
-  };
+const handleChange = async (_event: SyntheticEvent, newValue: string) => {
+  setActiveTab(newValue);
+  console.log("Action clicked: " + newValue + " for service: " + servicename);
 
-  const { servicename } = useParams();
-  const [activeTab, setActiveTab] = useState('start');
+  if (newValue === 'logs') return;
+
+  if (!servicename) {
+    console.error("No service name defined!");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/service/${servicename}/${newValue}`,
+      { method: 'POST' }
+    );
+    const data = await response.json();
+    console.log("Service response:", data);
+
+    if (data.success) setOpen(true);
+  } catch (err) {
+    console.error("Failed to call service API", err);
+  }
+};
 
   const dynamicTabs = [
     {

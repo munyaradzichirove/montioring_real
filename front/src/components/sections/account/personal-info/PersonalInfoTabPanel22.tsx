@@ -45,7 +45,7 @@ const PersonalInfoTabPanel = () => {
       </AccountTabPanelSection2>
 
       <AccountTabPanelSection2
-        title="Enable Logging?"
+        title="Enable Alerts?"
         subtitle="Add a personal or official WhatsApp number to receive service notifications whenever a service goes down or for account recovery."
          icon={<ClipboardData size={20} />}
       >
