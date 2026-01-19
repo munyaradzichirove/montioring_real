@@ -109,7 +109,7 @@ const PersonalInfoTabPanel = () => {
         }}
         onClick={(e) => handleSave()} // your function
       >
-        Refresh
+        Save
       </Button>
     </Stack>
   );

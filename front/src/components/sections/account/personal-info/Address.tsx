@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
+  Button,
   FormControl,
   FormControlLabel,
   Radio,
@@ -10,39 +11,46 @@ import {
 import InfoCard from '../common/InfoCard';
 import InfoCardAttribute from '../common/InfoCardAttribute';
 
+// demo JSON for notify only
+const demoService = {
+  notifyOnFail: true,
+};
+
 interface Service {
-  name: string;
-  cpu?: string;
-  uptime?: string;
-  threads?: string;
   sub?: string;
-  status?: string;
+  uptime?: string;
   memory?: string;
+  cpu?: string;
+  threads?: string;
   restart_count?: string;
-  // add other fields from your API if needed
+  notifyOnFail?: boolean;
 }
 
 interface AddressProps {
-  service: Service; // we receive the service object from PersonalInfoTabPanel
+  service: Service; // keep the other stats coming from parent as before
 }
 
 const Address = ({ service }: AddressProps) => {
-  const [open, setOpen] = useState(false);
-  const upSm = true; // or use your breakpoints hook if needed
+  const [notify, setNotify] = useState(service.notifyOnFail ? 'yes' : 'no');
 
-  const handleClose = () => setOpen(false);
+  useEffect(() => {
+    setNotify(service.notifyOnFail ? 'yes' : 'no');
+  }, [service.notifyOnFail]);
+
+  const handleSave = () => {
+    console.log('NotifyOnFail updated:', notify === 'yes');
+  };
 
   return (
     <>
-      <InfoCard setOpen={setOpen} sx={{ mb: 3 }}>
+      <InfoCard setOpen={() => {}} sx={{ mb: 3 }}>
         <Stack direction="column" spacing={{ xs: 2, sm: 1 }}>
-          <InfoCardAttribute label="SUB" value={(service.sub || "N/A").toUpperCase()} />
-          <InfoCardAttribute label="UPTIME" value={service.uptime || "-"} />
-          <InfoCardAttribute label="MEMORY" value={service.memory || "0"} />
-          <InfoCardAttribute label="CPU" value={service.cpu || "0"} />
-          <InfoCardAttribute label="THREADS" value={service.threads || "0"} />
-          <InfoCardAttribute label="RESTART COUNT" value={service.restart_count || "0"} />
-         
+          <InfoCardAttribute label="SUB" value={(service.sub || 'N/A').toUpperCase()} />
+          <InfoCardAttribute label="UPTIME" value={service.uptime || '-'} />
+          <InfoCardAttribute label="MEMORY" value={service.memory || '0'} />
+          <InfoCardAttribute label="CPU" value={service.cpu || '0'} />
+          <InfoCardAttribute label="THREADS" value={service.threads || '0'} />
+          <InfoCardAttribute label="RESTART COUNT" value={service.restart_count || '0'} />
         </Stack>
       </InfoCard>
 
@@ -51,13 +59,23 @@ const Address = ({ service }: AddressProps) => {
           Get Notified on Service fail?
         </Typography>
         <RadioGroup
-          row={upSm}
-          defaultValue={service.notifyOnFail ? "yes" : "no"}
+          row
+          value={notify}
+          onChange={(e) => setNotify(e.target.value)}
           aria-labelledby="address-visibility-radio-buttons"
         >
           <FormControlLabel value="no" control={<Radio />} label="No, don't notify me." />
           <FormControlLabel value="yes" control={<Radio />} label="Yes, notify me." />
         </RadioGroup>
+
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ flexShrink: 0, width: 150, maxWidth: '100%' }}
+          onClick={handleSave}
+        >
+          Save
+        </Button>
       </FormControl>
     </>
   );
