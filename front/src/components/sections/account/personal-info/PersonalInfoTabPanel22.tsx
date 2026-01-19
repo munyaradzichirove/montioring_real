@@ -1,30 +1,29 @@
+import { useEffect, useState } from 'react';
 import { Button, Divider, Stack } from '@mui/material';
 import AccountTabPanelSection2 from '../common/AccountTabPanelSection';
 import AccountTabPanelSection from '../common/AccountTabPanelSection';
-import Address from './Address';
 import Email from './Email';
-import Names from './Names';
 import Phone from './Phone';
-import UserName from './UserName';
-import IconifyIcon, { IconifySecond } from 'components/base/IconifyIcon';
 import { ArrowRepeat, ClipboardData, Whatsapp } from 'react-bootstrap-icons';
-import {
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
-
-import React, { useState } from 'react';
-// ... your imports
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 const PersonalInfoTabPanel = () => {
-  const [settings, setSettings] = useState({
-    autorestart: 'no',
-    enableAlerts: 'no',
-    whatsappNumber: '',
-    primaryEmail: '',
-    secondaryEmail: ''
-  });
+  const [settings, setSettings] = useState(null); // null until loaded
+
+  const savedData = {
+  autorestart: 'yes',
+  enableAlerts: 'yes',
+  whatsappNumber: '(+',
+  primaryEmail: 's11.com',
+  secondaryEmail: 'ff.alternate@email.com'
+};
+
+  useEffect(() => {
+    // simulate fetching saved values
+    setSettings(savedData);
+  }, []);
+
+  if (!settings) return null; // or loader
 
   const handleSave = () => {
     console.log('All settings:', settings);
@@ -89,7 +88,7 @@ const PersonalInfoTabPanel = () => {
         subtitle="Edit your primary email address for notifications and add an alternate email address."
         icon="material-symbols:mail-outline"
       >
-       <Email
+        <Email
           value={{
             primaryEmail: settings.primaryEmail,
             secondaryEmail: settings.secondaryEmail
@@ -98,13 +97,11 @@ const PersonalInfoTabPanel = () => {
             setSettings((prev) => ({ ...prev, ...val }))
           }
         />
-
       </AccountTabPanelSection>
 
-      <Button
+       <Button
         variant="contained"
         color="primary"
-        startIcon={<IconifyIcon icon="material-symbols:refresh" />}
         sx={{ 
           flexShrink: 0,
           width: 200,      // <-- set your width here (px)
@@ -114,8 +111,6 @@ const PersonalInfoTabPanel = () => {
       >
         Refresh
       </Button>
-
-
     </Stack>
   );
 };
