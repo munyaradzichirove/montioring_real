@@ -3,6 +3,7 @@ import { Button, Divider, Stack } from '@mui/material';
 import AccountTabPanelSection2 from '../common/AccountTabPanelSection';
 import AccountTabPanelSection from '../common/AccountTabPanelSection';
 import Email from './Email';
+import WhatsappView from './Whatsapp';
 import Phone from './Phone';
 import { ArrowRepeat, ClipboardData, Whatsapp } from 'react-bootstrap-icons';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
@@ -73,11 +74,11 @@ const PersonalInfoTabPanel = () => {
       </AccountTabPanelSection2>
 
       <AccountTabPanelSection2
-        title="WhatsApp Number"
+        title="WhatsApp Configuration"
         subtitle="Add a personal or official WhatsApp number to receive service notifications whenever a service goes down or for account recovery."
         icon={<Whatsapp size={20} />}
       >
-        <Phone
+        <WhatsappView
           value={settings.whatsappNumber}
           onChange={(val) => setSettings({...settings, whatsappNumber: val})}
         />
