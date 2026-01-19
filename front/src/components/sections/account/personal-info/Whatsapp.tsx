@@ -1,105 +1,106 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Stack, TextField, Typography } from '@mui/material';
-import { useAccounts } from 'providers/AccountsProvider';
-import IconifyIcon from 'components/base/IconifyIcon';
 import AccountDialog from '../common/AccountDialog';
 import InfoCard from '../common/InfoCard';
 import InfoCardAttribute from '../common/InfoCardAttribute';
+import IconifyIcon from 'components/base/IconifyIcon';
 
-const Email = ({ value, onChange }) => {
-  const [primary, setPrimary] = useState(value.primaryEmail || '');
-  const [secondary, setSecondary] = useState(value.secondaryEmail || '');
-
-
+const WhatsappView = ({ value, onChange }) => {
   const [open, setOpen] = useState(false);
-  const { personalInfo } = useAccounts();
 
+  const [whatsappNumber, setWhatsappNumber] = useState(value.whatsappNumber || '');
+  const [whatsappId, setWhatsappId] = useState(value.whatsappId || '');
+  const [whatsappToken, setWhatsappToken] = useState(value.whatsappToken || '');
+  const [templateName, setTemplateName] = useState(value.templateName || '');
 
+  useEffect(() => {
+    setWhatsappNumber(value.whatsappNumber || '');
+    setWhatsappId(value.whatsappId || '');
+    setWhatsappToken(value.whatsappToken || '');
+    setTemplateName(value.templateName || '');
+  }, [value]);
 
   const handleConfirm = () => {
     onChange({
-      primaryEmail: primary,
-      secondaryEmail: secondary,
+      whatsappNumber,
+      whatsappId,
+      whatsappToken,
+      templateName
     });
     setOpen(false);
   };
 
-  useEffect(() => {
-  setPrimary(value.primaryEmail || '');
-  setSecondary(value.secondaryEmail || '');
-}, [value]);
-
+  const handleDiscard = () => {
+    setWhatsappNumber(value.whatsappNumber || '');
+    setWhatsappId(value.whatsappId || '');
+    setWhatsappToken(value.whatsappToken || '');
+    setTemplateName(value.templateName || '');
+    setOpen(false);
+  };
 
   return (
     <>
- <InfoCard setOpen={setOpen} sx={{ mb: 2 }}>
-  <Stack direction="column" spacing={{ xs: 2, sm: 1 }}>
-    <InfoCardAttribute label="Send to Number" value={value.primaryEmail} />
-    <InfoCardAttribute label="WhatsApp Id" value={value.secondaryEmail} />
-    <InfoCardAttribute label="WhatsApp Token" value={value.primaryEmail} />
-    <InfoCardAttribute label="Template Name" value={value.secondaryEmail} />
-  </Stack>
-  <IconifyIcon
-    icon="material-symbols-light:edit-outline"
-    sx={{ fontSize: 20, color: 'neutral.dark', visibility: 'hidden' }}
-  />
-</InfoCard>
+      <InfoCard setOpen={setOpen} sx={{ mb: 2 }}>
+        <Stack direction="column" spacing={1}>
+          <InfoCardAttribute label="Send to Number" value={whatsappNumber} />
+          <InfoCardAttribute label="WhatsApp Id" value={whatsappId} />
+        <InfoCardAttribute
+          label="WhatsApp Token"
+          value={whatsappToken ? '•'.repeat(whatsappToken.length) : ''}
+          sx={{ fontSize: 40, letterSpacing: 4 }}
+        />
 
-        <AccountDialog
-          title="Whatsapp Configs"
-          subtitle="Update your primary email address. You can also set an alternate email address for extra security and backup."
-          open={open}
-         handleConfirm={() => {
-            onChange({ primaryEmail: primary, secondaryEmail: secondary });
-            setOpen(false);
-          }}
-          handleDiscard={() => {
-            setPrimary(value.primaryEmail || '');
-            setSecondary(value.secondaryEmail || '');
-            setOpen(false);
-          }}
->
-          <Stack direction="column" spacing={1} p={0.125}>
-            <TextField
-              placeholder="whatsapp_number"
-              label="Send to Number"
-              value={primary}
-              onChange={(e) => setPrimary(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              placeholder="WhatsApp Id"
-              label="WhatsApp Id"
-              value={secondary}
-              onChange={(e) => setSecondary(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              placeholder="Whatsapp Token"
-              label="Whatsapp Token"
-              value={primary}
-              onChange={(e) => setPrimary(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              placeholder="Template Name"
-              label="Template Name"
-              value={secondary}
-              onChange={(e) => setSecondary(e.target.value)}
-              fullWidth
-            />
-          </Stack>
-        </AccountDialog>
+          <InfoCardAttribute label="Template Name" value={templateName} />
+        </Stack>
+        <IconifyIcon
+          icon="material-symbols-light:edit-outline"
+          sx={{ fontSize: 20, color: 'neutral.dark', visibility: 'hidden' }}
+        />
+      </InfoCard>
+
+      <AccountDialog
+        title="Whatsapp Configs"
+        subtitle="Update your WhatsApp configuration fields."
+        open={open}
+        handleConfirm={handleConfirm}
+        handleDiscard={handleDiscard}
+      >
+        <Stack direction="column" spacing={1}>
+          <TextField
+            label="Send to Number"
+            value={whatsappNumber}
+            onChange={(e) => setWhatsappNumber(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            label="WhatsApp Id"
+            value={whatsappId}
+            onChange={(e) => setWhatsappId(e.target.value)}
+            fullWidth
+          />
+         <TextField
+            label="WhatsApp Token"
+            type="password"            // <-- this hides the value as dots
+            value={whatsappToken}
+            onChange={(e) => setWhatsappToken(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            label="Template Name"
+            value={templateName}
+            onChange={(e) => setTemplateName(e.target.value)}
+            fullWidth
+          />
+        </Stack>
+      </AccountDialog>
 
       <Stack spacing={1} sx={{ color: 'info.main' }}>
-        <IconifyIcon icon="material-symbols:info" sx={{ fontSize: 24 }} />
         <Typography variant="body2">
-          Your alternate email will be used to gain access to your account if you ever have issues
-          with logging in with your primary email.
+          Make sure this WhatsApp configuration is correct so notifications are sent properly.
         </Typography>
       </Stack>
     </>
   );
 };
 
-export default Email;
+export default WhatsappView;
