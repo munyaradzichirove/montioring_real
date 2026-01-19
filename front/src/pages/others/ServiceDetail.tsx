@@ -99,8 +99,6 @@ const handleChange = async (_event: SyntheticEvent, newValue: string) => {
   ];
 
 
-
-
   const handleClose = (_event: SyntheticEvent, reason?: SnackbarCloseReason) => {
     if (reason === 'clickaway') return;
     setOpen(false);
@@ -177,7 +175,7 @@ const handleChange = async (_event: SyntheticEvent, newValue: string) => {
     ))}
   </Container>
 </Paper>
-          <ProSnackbar open={open} onClose={handleClose} />
+        <ProSnackbar open={open} onClose={handleClose} message={`Service ${activeTab} executed for ${servicename}`} />
         </Stack>
       </TabContext>
     </AccountsProvider>
