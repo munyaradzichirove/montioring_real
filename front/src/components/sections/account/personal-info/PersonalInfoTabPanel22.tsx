@@ -11,24 +11,71 @@ import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 const PersonalInfoTabPanel = () => {
   const [settings, setSettings] = useState(null); // null until loaded
 
-  const savedData = {
-  autorestart: 'yes',
-  enableAlerts: 'yes',
-  whatsappNumber: '(+',
-  primaryEmail: 's11.com',
-  secondaryEmail: 'ff.alternate@email.com'
-};
+ useEffect(() => {
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/monitor-settings");
+      const json = await res.json();
 
-  useEffect(() => {
-    // simulate fetching saved values
-    setSettings(savedData);
-  }, []);
+      if (!res.ok || !json.success) {
+        console.error("Failed to fetch settings", json);
+        return;
+      }
+
+      const data = json.data;
+
+      setSettings({
+        autorestart: data.auto_restart === 1 ? "yes" : "no",
+        enableAlerts: data.alerts_enabled === 1 ? "yes" : "no",
+
+        // whatsapp_number is already a JSON object
+        whatsappNumber: data.whatsapp_number || null,
+
+        primaryEmail: data.primary_email || "",
+        secondaryEmail: data.secondary_email || ""
+      });
+
+    } catch (err) {
+      console.error("Error fetching monitor settings:", err);
+    }
+  };
+
+  fetchSettings();
+}, []);
 
   if (!settings) return null; // or loader
 
-  const handleSave = () => {
-    console.log('All settings:', settings);
-  };
+const handleSave = async () => {
+  try {
+      const res = await fetch("http://127.0.0.1:5000/api/monitor-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          auto_restart: settings.autorestart === "yes" ? 1 : 0,
+          alerts_enabled: settings.enableAlerts === "yes" ? 1 : 0,
+          whatsapp_enabled: settings.whatsappNumber ? 1 : 0,
+          whatsapp_number: settings.whatsappNumber,
+          email_enabled: settings.primaryEmail || settings.secondaryEmail ? 1 : 0,
+          primary_email: settings.primaryEmail,
+          secondary_email: settings.secondaryEmail,
+        }),
+      });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      console.error("Failed to save:", data);
+      alert("Error saving settings. Check console.");
+      return;
+    }
+
+    console.log("Settings saved:", data);
+    alert("Settings saved successfully ✅");
+  } catch (err) {
+    console.error("Save failed:", err);
+    alert("Error saving settings. Check console.");
+  }
+};
+
 
   return (
     <Stack direction="column" divider={<Divider />} spacing={5}>
